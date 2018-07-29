@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.mappers.projectreplyMapper">
+
+	<select id="list" resultType="org.zerock.domain.ProjectReplyVO">
+		select
+		*
+		from
+		tbl_procomment
+		where bno =
+		#{bno}
+		order by rno desc
+	</select>
+
+	<insert id="create">
+		insert into tbl_procomment (bno, replytext, replyer)
+		values (#{bno},#{replytext},#{replyer})
+	</insert>
+
+	<update id="update">
+		update tbl_procomment set replytext = #{replytext},
+		updatedate = now()
+		where rno = #{rno}
+	</update>
+
+	<delete id="delete">
+		delete from tbl_procomment where rno =#{rno}
+	</delete>
+	
+	<delete id="deleteAll">
+		delete from tbl_procomment where rno >= 0
+	</delete>
+
+
+	<select id="listPage" resultType="org.zerock.domain.ProjectReplyVO">
+		select
+		*
+		from
+		tbl_procomment
+		where
+		bno = #{bno}
+		order by rno desc
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+
+	<select id="count" resultType="int">
+		select count(bno) from tbl_procomment where bno =#{bno}
+	</select>
+
+<select id="getBno" resultType="int">
+	select bno from tbl_procomment where rno = #{rno}
+</select>
+
+
+</mapper>
+

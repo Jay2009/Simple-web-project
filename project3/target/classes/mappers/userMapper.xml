@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.mappers.userMapper">
+
+	<insert id="create">
+		 insert into tbl_user (username, birth, id, pw, pwcheck, address1, address2, address3, mobilenum, email, follownum, evalgrade, balance , gamecnt) 
+		 values(#{username}, #{birth}, #{id}, #{pw}, #{pwcheck}, #{address1}, #{address2}, #{address3}, #{mobilenum}, #{email}, 0, #{evalgrade}, 0, 0)
+	</insert>
+	
+	<select id="read" resultType="org.zerock.domain.UserVO">
+		select 
+		 username, birth, id, address1, address2, address3, mobilenum, email, follownum, evalgrade, balance 
+		from 
+		  tbl_user 
+		where id = #{id}
+	</select>
+	
+	<update id="update">
+		 update tbl_user set username =#{username}, address1 =#{address1}, address2 =#{address2}, address3 =#{address3}, mobilenum =#{mobilenum}, email =#{email} 
+		 where id = #{id}
+	 </update>
+	 
+
+	
+	<select id="loginCheck" resultType="String">
+		select  username from tbl_user where id = #{id} and pw = #{pw} 
+	</select>
+	
+	<select id="balanceCheck" resultType = "Integer">
+		select balance from tbl_user where id = #{id}
+	</select>
+	
+	<select id="viewMember" resultType="org.zerock.domain.UserVO">
+		select username,
+				id,
+				email,
+				regdate
+				from tbl_user
+				where id= #{id} AND pw= #{pw}
+	</select>
+	
+	<select id="idduplication" resultType="Integer">
+		SELECT COUNT(*)
+	        FROM tbl_user
+	        WHERE id = #{id};
+	</select>
+	
+	
+	<delete id="delete">
+		delete from tbl_user where usernum = #{usernum}
+	</delete>
+	
+	 <update id="winmoney" >
+ 	update tbl_user set balance = balance + 100 where id = #{id} 
+ 	</update>
+ 	
+ 	<update id ="gamecnt">
+	update tbl_user set gamecnt = gamecnt +1 where id = #{id} 
+	</update>
+	
+	<update id ="gamecntzero">
+	update tbl_user set gamecnt = 0 where id = #{id}
+	</update>
+	
+	<select id="checkgamecnt" resultType = "Integer">
+	select gamecnt from tbl_user where id = #{id}
+	</select>
+	
+</mapper>
